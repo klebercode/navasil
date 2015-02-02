@@ -1,10 +1,12 @@
 # coding: utf-8
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import User
 
-from crm.current_user import get_current_user
 
+SEX_CHOICES = (
+    (1, _(u'Feminino')),
+    (2, _(u'Masculino')),
+)
 
 PHONE_TYPE = (
     (1, _(u'Celular')),
@@ -53,22 +55,22 @@ STATE_CHOICES = (
 
 class Customer(models.Model):
     name = models.CharField(_(u'Nome'), max_length=255)
-    cpnj = models.CharField(_(u'CNPJ'), max_length=20, blank=True, null=True)
+    cnpj = models.CharField(_(u'CNPJ'), max_length=20, blank=True, null=True)
     site = models.URLField(_(u'Site'), blank=True, null=True)
-    address = models.CharField(_(u'Endereço'), max_length=255,
-                               blank=True, null=True)
-    district = models.CharField(_(u'Bairro'), max_length=150,
-                                blank=True, null=True)
-    city = models.CharField(_(u'Cidade'), max_length=100,
-                            blank=True, null=True)
+    address = models.CharField(_(u'Endereço'), max_length=200,
+                               null=True, blank=True)
+    number = models.IntegerField(_(u'Número'), null=True, blank=True)
+    district = models.CharField(_(u'Bairro'), max_length=150, null=True,
+                                blank=True)
+    complement = models.CharField(_(u'Complemento'), max_length=200,
+                                  null=True, blank=True)
+    zip_code = models.CharField(_(u'CEP'), max_length=10, null=True,
+                                blank=True)
+    city = models.CharField(_(u'Cidade'), max_length=150, null=True,
+                            blank=True)
     state = models.CharField(_(u'UF'), max_length=2, choices=STATE_CHOICES,
-                             blank=True, null=True)
-    zip_code = models.CharField(_(u'CEP'), max_length=10,
-                                blank=True, null=True)
+                             null=True, blank=True)
     observation = models.TextField(_(u'Observação'), blank=True, null=True)
-    created = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User, verbose_name=_(u'Usuário'),
-                             editable=False, default=get_current_user)
 
     def __unicode__(self):
         return unicode(self.name)
@@ -79,14 +81,56 @@ class Customer(models.Model):
         ordering = ['name']
 
 
+class People(models.Model):
+    name = models.CharField(_(u'Nome'), max_length=200)
+    cpf = models.CharField(_(u'CPF'), max_length=14, null=True, blank=True)
+    rg = models.CharField(_(u'RG'), max_length=20, null=True, blank=True)
+    expeditor = models.CharField(_(u'Orgão Expedidor'), max_length=10,
+                                 null=True, blank=True)
+    expeditor_date = models.DateField(_(u'Data de Expedição'), null=True,
+                                      blank=True)
+    brith_date = models.DateField(_(u'Data de Nascimento'), null=True,
+                                  blank=True)
+    sex = models.IntegerField(_(u'Sexo'), choices=SEX_CHOICES,
+                              blank=True, null=True)
+    address = models.CharField(_(u'Endereço'), max_length=200,
+                               null=True, blank=True)
+    number = models.IntegerField(_(u'Número'), null=True, blank=True)
+    district = models.CharField(_(u'Bairro'), max_length=150, null=True,
+                                blank=True)
+    complement = models.CharField(_(u'Complemento'), max_length=200,
+                                  null=True, blank=True)
+    zip_code = models.CharField(_(u'CEP'), max_length=10, null=True,
+                                blank=True)
+    city = models.CharField(_(u'Cidade'), max_length=150, null=True,
+                            blank=True)
+    state = models.CharField(_(u'UF'), max_length=2, choices=STATE_CHOICES,
+                             null=True, blank=True)
+    job = models.CharField(_(u'Cargo'), max_length=30, null=True, blank=True)
+    capacity = models.CharField(_(u'Lotação'), max_length=50, null=True,
+                                blank=True)
+    registration = models.IntegerField(_(u'Matrícula'), null=True, blank=True)
+    ord_date = models.DateField(_(u'Data da Portaria'), null=True, blank=True)
+    observation = models.TextField(_(u'Observação'), blank=True, null=True)
+    customer = models.ForeignKey('Customer', verbose_name=u'Cliente')
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+    class Meta:
+        verbose_name = _(u'Pessoa')
+        verbose_name_plural = _(u'Pessoas')
+        ordering = ['name']
+
+
 class ContactPhone(models.Model):
     number = models.CharField(_(u'Número'), max_length=20)
     type = models.IntegerField(_(u'Tipo'), choices=PHONE_TYPE,
                                blank=True, null=True)
     operate = models.IntegerField(_(u'Operadora'), choices=PHONE_OPERATE,
                                   blank=True, null=True)
-    name = models.CharField(_(u'Nome'), max_length=255, blank=True, null=True)
-    customer = models.ForeignKey(Customer)
+    customer = models.ForeignKey('Customer', verbose_name=u'Cliente')
+    people = models.ForeignKey('People', verbose_name=u'Pessoa')
 
     def __unicode__(self):
         return unicode(self.number)
@@ -94,13 +138,13 @@ class ContactPhone(models.Model):
     class Meta:
         verbose_name = _(u'Fone')
         verbose_name_plural = _(u'Fones')
-        ordering = ['name', 'number']
+        ordering = ['number']
 
 
 class ContactEmail(models.Model):
     email = models.EmailField(_(u'Email'))
-    name = models.CharField(_(u'Nome'), max_length=255, blank=True, null=True)
-    customer = models.ForeignKey(Customer)
+    customer = models.ForeignKey('Customer', verbose_name=u'Cliente')
+    people = models.ForeignKey('People', verbose_name=u'Pessoa')
 
     def __unicode__(self):
         return unicode(self.email)
@@ -108,4 +152,4 @@ class ContactEmail(models.Model):
     class Meta:
         verbose_name = _(u'Email')
         verbose_name_plural = _(u'Emails')
-        ordering = ['name', 'email']
+        ordering = ['email']
