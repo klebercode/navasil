@@ -50,8 +50,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'xadmin',
-    'crispy_forms',
+    # 'xadmin',
+    # 'crispy_forms',
     # 'reversion',
     'south',
     'import_export',
