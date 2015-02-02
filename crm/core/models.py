@@ -129,8 +129,10 @@ class ContactPhone(models.Model):
                                blank=True, null=True)
     operate = models.IntegerField(_(u'Operadora'), choices=PHONE_OPERATE,
                                   blank=True, null=True)
-    customer = models.ForeignKey('Customer', verbose_name=u'Cliente')
-    people = models.ForeignKey('People', verbose_name=u'Pessoa')
+    customer = models.ForeignKey('Customer', verbose_name=u'Cliente',
+                                 null=True, blank=True)
+    people = models.ForeignKey('People', verbose_name=u'Pessoa', null=True,
+                               blank=True)
 
     def __unicode__(self):
         return unicode(self.number)
@@ -143,8 +145,10 @@ class ContactPhone(models.Model):
 
 class ContactEmail(models.Model):
     email = models.EmailField(_(u'Email'))
-    customer = models.ForeignKey('Customer', verbose_name=u'Cliente')
-    people = models.ForeignKey('People', verbose_name=u'Pessoa')
+    customer = models.ForeignKey('Customer', verbose_name=u'Cliente',
+                                 null=True, blank=True)
+    people = models.ForeignKey('People', verbose_name=u'Pessoa', null=True,
+                               blank=True)
 
     def __unicode__(self):
         return unicode(self.email)
