@@ -26,26 +26,38 @@ class CustomerResource(resources.ModelResource):
 
 
 class CustomerAdmin(ImportExportModelAdmin):
-    list_display = ('name', )
+    list_display = ('name', 'get_phone', 'get_email')
     list_filter = ('state', 'city', 'user')
     search_fields = ('name', 'cpnj', 'site', 'address', 'district',
                      'city', 'state', 'zip_code', 'observation', 'user')
     inlines = [ContactPhoneInline, ContactEmailInline]
     resource_class = CustomerResource
 
-    # def get_phone(self, obj):
-    #     out = []
-    #     for k in obj.get_phone_set.all():
-    #         out.append(
-    #             '%s<br>' % k.number
-    #         )
-    #     return '\n'.join(out)
+    def get_phone(self, obj):
+        out = []
+        for k in obj.contactphone_set.all():
+            out.append(
+                '<strong>%s:</strong> %s (%s) - %s<br>' % (
+                    k.get_type_display(),
+                    k.number,
+                    k.get_operate_display(),
+                    k.name)
+            )
+        return '\n'.join(out)
+    get_phone.allow_tags = True
+    get_phone.short_description = 'Fone'
 
-    # def contact_phone(self, obj):
-    #     return ", ".join([k.numero for k in obj.fone_set.all()])
-
-    # def contact_email(self, obj):
-    #     return ", ".join([k.numero for k in obj.fone_set.all()])
+    def get_email(self, obj):
+        out = []
+        for k in obj.contactemail_set.all():
+            out.append(
+                '%s - %s<br>' % (
+                    k.email,
+                    k.name)
+            )
+        return '\n'.join(out)
+    get_email.allow_tags = True
+    get_email.short_description = 'Email'
 
 
 class ContactPhoneAdmin(ImportExportModelAdmin):
