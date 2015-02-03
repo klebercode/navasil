@@ -31,7 +31,8 @@ class CustomerAdmin(ImportExportModelAdmin):
     list_filter = ('state', 'city')
     search_fields = ('name', 'cnpj', 'site', 'address', 'number', 'district',
                      'city', 'state', 'zip_code', 'observation',
-                     'contactphone__number', 'contactemail__email')
+                     'contactphone__number', 'contactphone__type',
+                     'contactphone__operate', 'contactemail__email')
     fieldsets = (
         (None, {
             'fields': ('name', ('cnpj', 'site'), ('address', 'number'),
@@ -82,6 +83,7 @@ class PeopleAdmin(ImportExportModelAdmin):
                      'complement', 'zip_code', 'city', 'state', 'job',
                      'capacity', 'registration', 'ord_date', 'observation',
                      'customer__name', 'contactphone__number',
+                     'contactphone__type', 'contactphone__operate',
                      'contactemail__email')
     fieldsets = (
         (None, {
