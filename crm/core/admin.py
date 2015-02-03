@@ -26,10 +26,12 @@ class CustomerResource(resources.ModelResource):
 
 
 class CustomerAdmin(ImportExportModelAdmin):
+    list_per_page = 30
     list_display = ('name', 'get_phone', 'get_email')
     list_filter = ('state', 'city')
-    search_fields = ('name', 'cpnj', 'site', 'address', 'number', 'district',
-                     'city', 'state', 'zip_code', 'observation')
+    search_fields = ('name', 'cnpj', 'site', 'address', 'number', 'district',
+                     'city', 'state', 'zip_code', 'observation',
+                     'contactphone__number', 'contactemail__email')
     fieldsets = (
         (None, {
             'fields': ('name', ('cnpj', 'site'), ('address', 'number'),
@@ -71,6 +73,7 @@ class PeopleResource(resources.ModelResource):
 
 
 class PeopleAdmin(ImportExportModelAdmin):
+    list_per_page = 30
     list_display = ('name', 'cpf', 'rg', 'expeditor', 'brith_date',
                     'customer', 'get_phone', 'get_email')
     list_filter = ('customer', 'job', 'sex', 'state', 'city')
@@ -78,7 +81,8 @@ class PeopleAdmin(ImportExportModelAdmin):
                      'brith_date', 'sex', 'address', 'number', 'district',
                      'complement', 'zip_code', 'city', 'state', 'job',
                      'capacity', 'registration', 'ord_date', 'observation',
-                     'customer')
+                     'customer__name', 'contactphone__number',
+                     'contactemail__email')
     fieldsets = (
         (None, {
             'fields': ('customer', 'name', ('brith_date', 'sex', 'cpf'),
@@ -123,17 +127,20 @@ class PeopleAdmin(ImportExportModelAdmin):
     get_email.short_description = 'Email'
 
 
-class ContactPhoneAdmin(ImportExportModelAdmin):
-    list_display = ('number', 'type', 'operate', 'customer', 'people')
-    search_fields = ('number', 'type', 'operate', 'customer', 'people')
+# class ContactPhoneAdmin(ImportExportModelAdmin):
+#     list_display = ('number', 'type', 'operate', 'customer', 'people')
+#     list_filter = ('customer', 'people')
+#     search_fields = ('number', 'type', 'operate', 'customer__name',
+#                      'people__name')
 
 
-class ContactEmailAdmin(ImportExportModelAdmin):
-    list_display = ('email', 'customer', 'people')
-    search_fields = ('email', 'customer', 'people')
+# class ContactEmailAdmin(ImportExportModelAdmin):
+#     list_display = ('email', 'customer', 'people')
+#     list_filter = ('customer', 'people')
+#     search_fields = ('email', 'customer__name', 'people__name')
 
 
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(People, PeopleAdmin)
-admin.site.register(ContactPhone, ContactPhoneAdmin)
-admin.site.register(ContactEmail, ContactEmailAdmin)
+# admin.site.register(ContactPhone, ContactPhoneAdmin)
+# admin.site.register(ContactEmail, ContactEmailAdmin)
