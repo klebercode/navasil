@@ -81,6 +81,18 @@ class Customer(models.Model):
         ordering = ['name']
 
 
+class Job(models.Model):
+    name = models.CharField(_(u'Cargo'), max_length=30, null=True, blank=True)
+
+    def __unicode__(self):
+        return unicode(self.name)
+
+    class Meta:
+        verbose_name = _(u'Cargo')
+        verbose_name_plural = _(u'Cargos')
+        ordering = ['name']
+
+
 class People(models.Model):
     name = models.CharField(_(u'Nome'), max_length=200)
     cpf = models.CharField(_(u'CPF'), max_length=14, null=True, blank=True)
@@ -107,6 +119,8 @@ class People(models.Model):
     state = models.CharField(_(u'UF'), max_length=2, choices=STATE_CHOICES,
                              null=True, blank=True)
     job = models.CharField(_(u'Cargo'), max_length=30, null=True, blank=True)
+    job2 = models.ForeignKey('Job', verbose_name=u'Cargo Correto', null=True,
+                             blank=True)
     capacity = models.CharField(_(u'Lotação'), max_length=50, null=True,
                                 blank=True)
     registration = models.IntegerField(_(u'Matrícula'), null=True, blank=True)

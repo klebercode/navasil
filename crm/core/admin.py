@@ -5,7 +5,7 @@ from django.contrib.admin.options import TabularInline
 from import_export.admin import ImportExportModelAdmin
 from import_export import resources
 
-from crm.core.models import Customer, People, ContactPhone, ContactEmail
+from crm.core.models import Customer, People, ContactPhone, ContactEmail, Job
 
 
 class ContactPhoneInline(TabularInline):
@@ -97,7 +97,7 @@ class PeopleAdmin(ImportExportModelAdmin):
         }),
         ('Profissional', {
             'classes': ('grp-collapse grp-open',),
-            'fields': (('job', 'registration', 'ord_date'), 'observation')
+            'fields': (('job', 'job2', 'registration', 'ord_date'), 'observation')
         }),
 
     )
@@ -129,6 +129,17 @@ class PeopleAdmin(ImportExportModelAdmin):
     get_email.short_description = 'Email'
 
 
+class JobResource(resources.ModelResource):
+    class Meta:
+        model = Job
+
+
+class JobAdmin(ImportExportModelAdmin):
+    list_per_page = 30
+    list_display = ('name',)
+    search_fields = ('name',)
+
+
 # class ContactPhoneAdmin(ImportExportModelAdmin):
 #     list_display = ('number', 'type', 'operate', 'customer', 'people')
 #     list_filter = ('customer', 'people')
@@ -144,5 +155,6 @@ class PeopleAdmin(ImportExportModelAdmin):
 
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(People, PeopleAdmin)
+admin.site.register(Job, JobAdmin)
 # admin.site.register(ContactPhone, ContactPhoneAdmin)
 # admin.site.register(ContactEmail, ContactEmailAdmin)

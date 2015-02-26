@@ -17,4 +17,8 @@ urlpatterns = patterns(
     url(r'^grappelli/', include('grappelli.urls')),
     url(r'^', include(admin.site.urls)),
     # url(r'^xadmin/', include(xadmin.site.urls))
+
+    # api
+    url(r'^api/list_customers$', 'crm.core.views.list_customers',
+        name='api_list_customers'),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
