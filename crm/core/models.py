@@ -52,6 +52,12 @@ STATE_CHOICES = (
     ('TO', u'Tocantins'),
 )
 
+MARITAL_CHOICES = (
+    (1, _(u'Casado(a)')),
+    (2, _(u'Solteiro(a)')),
+    (3, _(u'Divorciado(a)')),
+)
+
 
 class Customer(models.Model):
     name = models.CharField(_(u'Nome'), max_length=255)
@@ -126,6 +132,8 @@ class People(models.Model):
     ord_date = models.DateField(_(u'Data da Portaria'), null=True, blank=True)
     observation = models.TextField(_(u'Observação'), blank=True, null=True)
     customer = models.ForeignKey('Customer', verbose_name=u'Cliente')
+    marital = models.IntegerField(_(u'Estado Civil'), choices=MARITAL_CHOICES,
+                                  blank=True, null=True)
 
     def __unicode__(self):
         return unicode(self.name)

@@ -87,7 +87,8 @@ class PeopleAdmin(ImportExportModelAdmin):
                      'contactemail__email')
     fieldsets = (
         (None, {
-            'fields': ('customer', 'name', ('brith_date', 'sex', 'cpf'),
+            'fields': ('customer', 'name', ('brith_date', 'sex'),
+                       ('marital', 'cpf'),
                        ('rg', 'expeditor', 'expeditor_date'))
         }),
         ('Endereço', {
