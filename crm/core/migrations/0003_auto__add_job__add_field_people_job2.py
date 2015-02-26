@@ -8,32 +8,26 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding model 'Job'
+        db.create_table(u'core_job', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=30, null=True, blank=True)),
+        ))
+        db.send_create_signal(u'core', ['Job'])
+
         # Adding field 'People.job2'
         db.add_column(u'core_people', 'job2',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['core.Job']),
+                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['core.Job'], null=True, blank=True),
                       keep_default=False)
 
 
-        # Renaming column for 'People.job' to match new field type.
-        db.rename_column(u'core_people', 'job_id', 'job')
-        # Changing field 'People.job'
-        db.alter_column(u'core_people', 'job', self.gf('django.db.models.fields.CharField')(max_length=30, null=True))
-        # Removing index on 'People', fields ['job']
-        db.delete_index(u'core_people', ['job_id'])
-
-
     def backwards(self, orm):
-        # Adding index on 'People', fields ['job']
-        db.create_index(u'core_people', ['job_id'])
+        # Deleting model 'Job'
+        db.delete_table(u'core_job')
 
         # Deleting field 'People.job2'
         db.delete_column(u'core_people', 'job2_id')
 
-
-        # Renaming column for 'People.job' to match new field type.
-        db.rename_column(u'core_people', 'job', 'job_id')
-        # Changing field 'People.job'
-        db.alter_column(u'core_people', 'job_id', self.gf('django.db.models.fields.related.ForeignKey')(default=0, to=orm['core.Job']))
 
     models = {
         u'core.contactemail': {
@@ -86,7 +80,7 @@ class Migration(SchemaMigration):
             'expeditor_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'job': ('django.db.models.fields.CharField', [], {'max_length': '30', 'null': 'True', 'blank': 'True'}),
-            'job2': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Job']"}),
+            'job2': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['core.Job']", 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'number': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'observation': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
