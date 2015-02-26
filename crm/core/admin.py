@@ -80,7 +80,7 @@ class PeopleAdmin(ImportExportModelAdmin):
     list_filter = ('customer', 'job', 'sex', 'state', 'city')
     search_fields = ('name', 'cpf', 'rg', 'expeditor', 'expeditor_date',
                      'brith_date', 'sex', 'address', 'number', 'district',
-                     'complement', 'zip_code', 'city', 'state', 'job',
+                     'complement', 'zip_code', 'city', 'state', 'job__name',
                      'capacity', 'registration', 'ord_date', 'observation',
                      'customer__name', 'contactphone__number',
                      'contactphone__type', 'contactphone__operate',
@@ -97,7 +97,7 @@ class PeopleAdmin(ImportExportModelAdmin):
         }),
         ('Profissional', {
             'classes': ('grp-collapse grp-open',),
-            'fields': (('job', 'job2', 'registration', 'ord_date'), 'observation')
+            'fields': (('job', 'registration', 'ord_date'), 'observation')
         }),
 
     )

@@ -118,9 +118,8 @@ class People(models.Model):
                             blank=True)
     state = models.CharField(_(u'UF'), max_length=2, choices=STATE_CHOICES,
                              null=True, blank=True)
-    job = models.CharField(_(u'Cargo'), max_length=30, null=True, blank=True)
-    job2 = models.ForeignKey('Job', verbose_name=u'Cargo Correto', null=True,
-                             blank=True)
+    job = models.ForeignKey('Job', verbose_name=u'Cargo Correto', null=True,
+                            blank=True)
     capacity = models.CharField(_(u'Lotação'), max_length=50, null=True,
                                 blank=True)
     registration = models.IntegerField(_(u'Matrícula'), null=True, blank=True)
