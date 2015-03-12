@@ -149,21 +149,31 @@ class JobAdmin(ImportExportModelAdmin):
     search_fields = ('name',)
 
 
-# class ContactPhoneAdmin(ImportExportModelAdmin):
-#     list_display = ('number', 'type', 'operate', 'customer', 'people')
-#     list_filter = ('customer', 'people')
-#     search_fields = ('number', 'type', 'operate', 'customer__name',
-#                      'people__name')
+class ContactPhoneResource(resources.ModelResource):
+    class Meta:
+        model = ContactPhone
 
 
-# class ContactEmailAdmin(ImportExportModelAdmin):
-#     list_display = ('email', 'customer', 'people')
-#     list_filter = ('customer', 'people')
-#     search_fields = ('email', 'customer__name', 'people__name')
+class ContactPhoneAdmin(ImportExportModelAdmin):
+    list_display = ('number', 'type', 'operate', 'customer', 'people')
+    list_filter = ('customer', 'people')
+    search_fields = ('number', 'type', 'operate', 'customer__name',
+                     'people__name')
+
+
+class ContactEmailResource(resources.ModelResource):
+    class Meta:
+        model = ContactEmail
+
+
+class ContactEmailAdmin(ImportExportModelAdmin):
+    list_display = ('email', 'customer', 'people')
+    list_filter = ('customer', 'people')
+    search_fields = ('email', 'customer__name', 'people__name')
 
 
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(People, PeopleAdmin)
 admin.site.register(Job, JobAdmin)
-# admin.site.register(ContactPhone, ContactPhoneAdmin)
-# admin.site.register(ContactEmail, ContactEmailAdmin)
+admin.site.register(ContactPhone, ContactPhoneAdmin)
+admin.site.register(ContactEmail, ContactEmailAdmin)
