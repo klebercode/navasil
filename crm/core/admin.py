@@ -46,11 +46,15 @@ class CustomerAdmin(ImportExportModelAdmin):
     def get_phone(self, obj):
         out = []
         for k in obj.contactphone_set.all():
+            if k.get_operate_display():
+                operate = '(%s)' % k.get_operate_display()
+            else:
+                operate = ''
             out.append(
-                '<strong>%s:</strong> %s (%s)<br>' % (
+                '<strong>%s:</strong> %s %s<br>' % (
                     k.get_type_display(),
                     k.number,
-                    k.get_operate_display()
+                    operate,
                 )
             )
         return '\n'.join(out)
@@ -108,11 +112,15 @@ class PeopleAdmin(ImportExportModelAdmin):
     def get_phone(self, obj):
         out = []
         for k in obj.contactphone_set.all():
+            if k.get_operate_display():
+                operate = '(%s)' % k.get_operate_display()
+            else:
+                operate = ''
             out.append(
-                '<strong>%s:</strong> %s (%s)<br>' % (
+                '<strong>%s:</strong> %s %s<br>' % (
                     k.get_type_display(),
                     k.number,
-                    k.get_operate_display()
+                    operate,
                 )
             )
         return '\n'.join(out)
