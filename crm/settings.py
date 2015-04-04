@@ -111,13 +111,6 @@ MEDIA_URL = '/media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# DEFAULT_FROM_EMAIL = 'Prefeitura de Palmeirina <no-reply@palmeirina.pe.gov.br>'
-# EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtpi.kinghost.net'
-# EMAIL_HOST_USER = 'contato@palmeirina.pe.gov.br'
-# EMAIL_HOST_PASSWORD = 'pmsAl@9090'
-# EMAIL_PORT = 587
-
 
 # django-tinymce
 # TINYMCE_JS_URL = STATIC_URL + 'tiny_mce/tiny_mce.js'
@@ -138,9 +131,9 @@ TINYMCE_DEFAULT_CONFIG = {
 # grappelli
 GRAPPELLI_ADMIN_TITLE = 'OW7 | CRM'
 
-# GRAPPELLI_EXTENSIONS_NAVBAR = 'pmsal.extensions.Navbar'
+# GRAPPELLI_EXTENSIONS_NAVBAR = 'crm.extensions.Navbar'
 
-# GRAPPELLI_EXTENSIONS_SIDEBAR = 'pmsal.extensions.Sidebar'
+# GRAPPELLI_EXTENSIONS_SIDEBAR = 'crm.extensions.Sidebar'
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -164,12 +157,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 SOUTH_MIGRATION_MODULES = {
     'taggit': 'taggit.south_migrations',
 }
-
-# # filebrowser
-# FILEBROWSER_MEDIA_URL = MEDIA_URL
-# FILEBROWSER_URL_FILEBROWSER_MEDIA = MEDIA_URL + 'filebrowser/'
-# FILEBROWSER_URL_TINYMCE = MEDIA_URL + "/tiny_mce/"
-# FILEBROWSER_PATH_TINYMCE = "tiny_mce/"
 
 
 # Templates
